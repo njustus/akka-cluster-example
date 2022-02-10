@@ -42,15 +42,3 @@ object SessionHandler extends StatefulActor {
     SessionRef(name, newSession)
   }
 }
-
-object Session extends StatelessActor {
-  override type ReceivingMessages = Unit
-  override protected def state(state: Unit): Behavior[Unit] = Behaviors.setup { context =>
-    Behaviors.receiveMessagePartial {
-      case x =>
-        context.log.error(s"unhandled message $x")
-
-        Behaviors.same
-    }
-  }
-}
