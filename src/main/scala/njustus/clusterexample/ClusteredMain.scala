@@ -17,7 +17,7 @@ object ClusteredMain extends CommonMain {
     val cluster = Cluster(ActorSystem("editing-system"))
     val system = cluster.system
 
-    if(isServer(system.settings)) {
+    if (isServer(system.settings)) {
       log.info("starting server")
       system.actorOf(coordinatorProps, coordinatorName)
     } else {

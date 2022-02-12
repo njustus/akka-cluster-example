@@ -17,13 +17,13 @@ class EditingPeer(fileCoordinator: ActorRef) extends Actor with CommonActor {
   }
 
   override def receive: Receive = {
-    case update:TextEditingProtocol.TextFileUpdate =>
+    case update: TextEditingProtocol.TextFileUpdate =>
       log.info("Received initial file {}", update)
       context.become(initialized(update.textFile))
   }
 
   private def initialized(textFile: TextFile): Receive = {
-    case update:TextEditingProtocol.TextFileUpdate =>
+    case update: TextEditingProtocol.TextFileUpdate =>
       log.debug("Received update {}", update)
       context.become(initialized(update.textFile))
     case EditingPeer.Tick =>
@@ -32,7 +32,7 @@ class EditingPeer(fileCoordinator: ActorRef) extends Actor with CommonActor {
 
   private def edit(textFile: TextFile): TextEditingProtocol.EditLine = {
     val newLine = generateNewLine()
-    val lineIdx = Random.between(0, textFile.length)
+    val lineIdx = Random.between(0, textFile.length + 1)
     log.debug("going to edit line {} with {}", lineIdx, newLine)
 
     TextEditingProtocol.EditLine(

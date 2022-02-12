@@ -9,13 +9,15 @@ case class Card(color: String, symbol: String) {
   override def toString: String = s"$color - $symbol"
 }
 
-case class GameState(remainingCards:List[Card], playedCards:List[Card]) {
+case class GameState(remainingCards: List[Card], playedCards: List[Card]) {
   def topCard: Card = playedCards.head
 }
 
 object Session extends StatefulActor {
   sealed trait Messages
-  case class PlayCard(card:Card, player: ActorRef[AnyRef]) extends Messages
+
+  case class PlayCard(card: Card, player: ActorRef[AnyRef]) extends Messages
+
   case object DrawCard extends Messages
 
   override type State = GameState

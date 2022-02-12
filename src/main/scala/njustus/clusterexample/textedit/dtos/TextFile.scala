@@ -13,12 +13,16 @@ case class EditPatch(content: String,
 
 case class TextFile(fileName: String,
                     lines: List[EditPatch],
-                    lastUpdate:LocalDateTime) {
+                    lastUpdate: LocalDateTime) {
   def length: Int = lines.length
 
   override def toString: String = {
-    s"${fileName} (${lastUpdate})\n"+
-      s"${lines.mkString("\n")}"
+    val indexedLines = lines.zipWithIndex.map { case (line, idx) =>
+      s"[$idx] $line"
+    }.mkString("\n")
+
+    s"${fileName} (${lastUpdate})\n" +
+      s"${indexedLines}"
   }
 }
 

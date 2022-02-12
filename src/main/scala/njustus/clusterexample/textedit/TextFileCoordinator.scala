@@ -21,7 +21,7 @@ class TextFileCoordinator(interpreter: TextEditorInterpreter,
     case TextEditingProtocol.Leave =>
       val peer = sender()
       val peerIdx = editingPeers.indexOf(peer)
-      if(peerIdx > -1) {
+      if (peerIdx > -1) {
         editingPeers.remove(peerIdx)
         log.info("{} leaves - {} editors", peer, editingPeers.size)
       }
@@ -35,7 +35,7 @@ class TextFileCoordinator(interpreter: TextEditorInterpreter,
       updateTextFile(newTextFile, peer)
   }
 
-  private def updateTextFile(newTextFile: TextFile, editPeer:ActorRef): Unit = {
+  private def updateTextFile(newTextFile: TextFile, editPeer: ActorRef): Unit = {
     currentTextFile = newTextFile
 
     val textFileUpdate = TextEditingProtocol.TextFileUpdate(newTextFile, editPeer)

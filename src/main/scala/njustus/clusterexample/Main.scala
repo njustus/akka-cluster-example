@@ -17,7 +17,7 @@ object Main extends CommonMain {
     val peer2 = system.actorOf(EditingPeer.props(coordinator), "Tom");
     val peer3 = system.actorOf(EditingPeer.props(coordinator), "Jenny");
 
-    for(_ <- 0 until 5) {
+    for (_ <- 0 until 5) {
       peer1.tell(EditingPeer.Tick, ActorRef.noSender)
       Thread.sleep(10000)
       peer3.tell(EditingPeer.Tick, ActorRef.noSender)
