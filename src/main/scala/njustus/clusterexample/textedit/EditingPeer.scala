@@ -1,11 +1,15 @@
 package njustus.clusterexample.textedit
 
 import akka.actor._
+import com.github.javafaker.Faker
 import njustus.clusterexample.textedit.dtos._
 
+import java.util.Locale
 import scala.util.Random
 
 class EditingPeer(fileCoordinator: ActorRef) extends Actor with CommonActor {
+  private val faker = new Faker(Locale.GERMANY)
+
   override def preStart(): Unit = {
     super.preStart()
     log.info("joining to {}", fileCoordinator.path)
@@ -27,14 +31,21 @@ class EditingPeer(fileCoordinator: ActorRef) extends Actor with CommonActor {
   }
 
   private def edit(textFile: TextFile): TextEditingProtocol.EditLine = {
+    val newLine = generateNewLine()
     val lineIdx = Random.between(0, textFile.length)
-    val newLine = Random.alphanumeric.take(10).mkString("")
     log.debug("going to edit line {} with {}", lineIdx, newLine)
 
     TextEditingProtocol.EditLine(
       lineIdx,
       newLine
     )
+  }
+
+  private def generateNewLine(): String = {
+    if (Random.nextFloat() > 0.8)
+      faker.yoda().quote()
+    else
+      faker.shakespeare().romeoAndJulietQuote()
   }
 }
 
