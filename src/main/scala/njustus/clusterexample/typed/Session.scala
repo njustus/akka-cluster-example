@@ -1,7 +1,7 @@
-package njustus.clusterexample
+package njustus.clusterexample.typed
 
-import akka.actor.typed.scaladsl._
 import akka.actor.typed._
+import akka.actor.typed.scaladsl._
 
 import scala.util.Random
 

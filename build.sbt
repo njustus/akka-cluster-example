@@ -1,4 +1,4 @@
-name := "akka-quickstart-scala"
+name := "akka-cluster-example"
 
 version := "1.0"
 
@@ -15,7 +15,10 @@ fork := true
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion,
   "com.typesafe.akka" %% "akka-cluster-typed" % akkaVersion,
+  "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+  "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
   "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion % Test,
+//  "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion % Test,
+  "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
   "org.scalatest" %% "scalatest" % "3.1.0" % Test
 )

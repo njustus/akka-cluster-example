@@ -1,7 +1,7 @@
-package njustus.clusterexample
+package njustus.clusterexample.typed
 
-import akka.actor.typed.scaladsl._
-import akka.actor.typed._
+import akka.actor.typed.scaladsl.{ActorContext, Behaviors}
+import akka.actor.typed.{ActorRef, Behavior}
 
 import scala.util.Random
 
@@ -10,8 +10,11 @@ object SessionHandler extends StatefulActor {
   override type State = Map[String, ActorRef[AnyRef]]
 
   sealed trait Messages
-  case class Join(sessionId: Option[String], source:ActorRef[AnyRef]) extends Messages
+
+  case class Join(sessionId: Option[String], source: ActorRef[AnyRef]) extends Messages
+
   case class SessionRef[A](sessionId: String, actorRef: ActorRef[A]) extends Messages
+
   case object SessionNotFound extends Messages
 
   override protected def zero: Map[String, ActorRef[AnyRef]] = Map.empty
@@ -34,7 +37,7 @@ object SessionHandler extends StatefulActor {
     }
   }
 
-  private def createSession(context:ActorContext[Messages]) = {
+  private def createSession(context: ActorContext[Messages]) = {
     val name = Random.alphanumeric.take(10).map(c => c.toUpper).mkString("")
     context.log.info(s"creating session $name")
 

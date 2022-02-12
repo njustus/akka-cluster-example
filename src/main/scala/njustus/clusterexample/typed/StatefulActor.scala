@@ -1,4 +1,4 @@
-package njustus.clusterexample
+package njustus.clusterexample.typed
 
 import akka.actor.typed.Behavior
 
