@@ -7,6 +7,7 @@ import scala.util.Random
 class EditingPeer(fileCoordinator: ActorRef) extends Actor with CommonActor {
   override def preStart(): Unit = {
     super.preStart()
+    log.info("joining to {}", fileCoordinator.path)
     fileCoordinator.tell(TextEditingProtocol.Join, context.self)
   }
 
@@ -37,7 +38,7 @@ class EditingPeer(fileCoordinator: ActorRef) extends Actor with CommonActor {
 }
 
 object EditingPeer {
-  case object Tick
+  case object Tick extends EditMessage
 
   def props(fc: ActorRef): Props = Props(new EditingPeer(fc))
 }

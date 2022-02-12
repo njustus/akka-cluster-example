@@ -14,7 +14,7 @@ class SimpleEditor extends TextEditorInterpreter {
       val (start, rest) = text.lines.splitAt(lineNo)
       val patchedLines = start.appendedAll(patch::rest.tail)
 
-      TextFile(text.path, patchedLines, LocalDateTime.now())
+      TextFile(text.fileName, patchedLines, LocalDateTime.now())
     }
   }
 }

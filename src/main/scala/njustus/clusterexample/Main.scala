@@ -3,18 +3,15 @@ package njustus.clusterexample
 import akka.actor.{ActorRef, ActorSystem}
 import njustus.clusterexample.textedit._
 
-import java.nio.file.Paths
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
-object Main {
+object Main extends CommonMain {
 
   def main(args: Array[String]): Unit = {
-    val file = TextFile.fromPath(Paths.get("./book.txt"))
+    val system = ActorSystem(systemName)
 
-    val system = ActorSystem("editing-system")
-
-    val coordinator = system.actorOf(TextFileCoordinator.props(new SimpleEditor(), file), s"coordinator-${file.fileName}")
+    val coordinator = system.actorOf(coordinatorProps, coordinatorName)
 
     val peer1 = system.actorOf(EditingPeer.props(coordinator), "Tim");
     val peer2 = system.actorOf(EditingPeer.props(coordinator), "Tom");

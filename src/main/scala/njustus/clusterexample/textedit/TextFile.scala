@@ -11,15 +11,13 @@ case class EditPatch(content: String,
   override def toString: String = s"${content} (${editor})"
 }
 
-case class TextFile(path: Path,
+case class TextFile(fileName: String,
                     lines: List[EditPatch],
                     lastUpdate:LocalDateTime) {
   def length: Int = lines.length
 
-  def fileName: String = path.getFileName.toString
-
   override def toString: String = {
-    s"${path.getFileName} (${lastUpdate})\n"+
+    s"${fileName} (${lastUpdate})\n"+
       s"${lines.mkString("\n")}"
   }
 }
@@ -31,6 +29,6 @@ object TextFile {
       EditPatch(line, None)
     }
 
-    TextFile(path, lines, LocalDateTime.now())
+    TextFile(path.getFileName.toString, lines, LocalDateTime.now())
   }
 }
