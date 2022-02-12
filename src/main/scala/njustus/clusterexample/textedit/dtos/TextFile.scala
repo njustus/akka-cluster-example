@@ -2,6 +2,7 @@ package njustus.clusterexample.textedit.dtos
 
 import java.nio.file.{Files, Path}
 import java.time.LocalDateTime
+import scala.io.Source
 import scala.jdk.CollectionConverters._
 
 case class EditPatch(content: String,
@@ -34,5 +35,13 @@ object TextFile {
     }
 
     TextFile(path.getFileName.toString, lines, LocalDateTime.now())
+  }
+
+  def fromResource(resource: String): TextFile = {
+    val lines = Source.fromResource(resource).getLines().map { line =>
+      EditPatch(line, None)
+    }.toList
+
+    TextFile(resource, lines, LocalDateTime.now())
   }
 }

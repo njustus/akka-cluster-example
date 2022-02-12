@@ -3,8 +3,6 @@ package njustus.clusterexample.typed
 import akka.actor.typed._
 import akka.actor.typed.scaladsl._
 
-import scala.util.Random
-
 case class Card(color: String, symbol: String) {
   override def toString: String = s"$color - $symbol"
 }

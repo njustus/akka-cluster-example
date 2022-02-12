@@ -1,6 +1,6 @@
 package njustus.clusterexample.textedit
 
-import njustus.clusterexample.textedit.dtos.{EditPatch, TextFile}
+import njustus.clusterexample.textedit.dtos._
 
 import java.time.LocalDateTime
 

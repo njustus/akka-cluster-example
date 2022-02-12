@@ -1,13 +1,9 @@
 package njustus.clusterexample
 
-import akka.actor.{ActorRef, ActorSystem, PoisonPill}
+import akka.actor.{ActorRef, ActorSystem}
 import akka.cluster._
-import akka.cluster.client.ClusterClientReceptionist
-import akka.cluster.singleton.{ClusterSingletonManager, ClusterSingletonManagerSettings, ClusterSingletonProxy, ClusterSingletonProxySettings}
-import njustus.clusterexample.textedit.EditingPeerActor.Tick
 import njustus.clusterexample.textedit._
 
-import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration.FiniteDuration
