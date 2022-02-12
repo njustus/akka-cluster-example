@@ -16,12 +16,14 @@ object Main {
 
     val coordinator = system.actorOf(TextFileCoordinator.props(new SimpleEditor(), file), s"coordinator-${file.fileName}")
 
-    val peer1 = system.actorOf(EditingPeer.props(coordinator), "peer-0");
-    val peer2 = system.actorOf(EditingPeer.props(coordinator), "peer-1");
+    val peer1 = system.actorOf(EditingPeer.props(coordinator), "Tim");
+    val peer2 = system.actorOf(EditingPeer.props(coordinator), "Tom");
+    val peer3 = system.actorOf(EditingPeer.props(coordinator), "Jenny");
 
     for(_ <- 0 until 5) {
       peer1.tell(EditingPeer.Tick, ActorRef.noSender)
       Thread.sleep(10000)
+      peer3.tell(EditingPeer.Tick, ActorRef.noSender)
     }
 
     peer2.tell(EditingPeer.Tick, ActorRef.noSender)

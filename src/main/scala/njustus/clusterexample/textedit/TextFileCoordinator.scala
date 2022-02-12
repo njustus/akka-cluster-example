@@ -26,9 +26,10 @@ class TextFileCoordinator(interpreter: TextEditorInterpreter,
 
     case editLine: TextEditingProtocol.EditLine =>
       val peer = sender()
+      val patch = EditPatch(editLine.content, Some(peer.path.name))
       log.info("edit received {}", editLine)
 
-      val newTextFile = interpreter.editLine(currentTextFile, editLine.lineNo, editLine.content)
+      val newTextFile = interpreter.editLine(currentTextFile, editLine.lineNo, patch)
       updateTextFile(newTextFile, peer)
   }
 

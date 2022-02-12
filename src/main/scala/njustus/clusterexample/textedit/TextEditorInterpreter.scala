@@ -3,11 +3,11 @@ package njustus.clusterexample.textedit
 import java.time.LocalDateTime
 
 trait TextEditorInterpreter {
-  def editLine(text:TextFile, lineNo:Int, patch: String): TextFile
+  def editLine(text:TextFile, lineNo:Int, patch: EditPatch): TextFile
 }
 
 class SimpleEditor extends TextEditorInterpreter {
-  override def editLine(text:TextFile, lineNo:Int, patch: String): TextFile = {
+  override def editLine(text:TextFile, lineNo:Int, patch: EditPatch): TextFile = {
     if(lineNo<0 || lineNo>text.lines.length) {
       text
     } else {
