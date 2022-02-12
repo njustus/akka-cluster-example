@@ -26,7 +26,7 @@ class TextFileCoordinator(interpreter: TextEditorInterpreter,
 
     case editLine: TextEditingProtocol.EditLine =>
       val peer = sender()
-      log.debug("edit received {}", editLine)
+      log.info("edit received {}", editLine)
 
       val newTextFile = interpreter.editLine(currentTextFile, editLine.lineNo, editLine.content)
       updateTextFile(newTextFile, peer)
@@ -36,7 +36,7 @@ class TextFileCoordinator(interpreter: TextEditorInterpreter,
     currentTextFile = newTextFile
 
     val textFileUpdate = TextEditingProtocol.TextFileUpdate(newTextFile, editPeer)
-    log.info("editing patch applied, notify peers")
+    log.debug("editing patch applied, notify peers")
     editingPeers.foreach { actor =>
       actor.tell(textFileUpdate, context.self)
     }

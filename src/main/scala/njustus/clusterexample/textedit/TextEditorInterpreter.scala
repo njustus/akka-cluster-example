@@ -8,7 +8,7 @@ trait TextEditorInterpreter {
 
 class SimpleEditor extends TextEditorInterpreter {
   override def editLine(text:TextFile, lineNo:Int, patch: String): TextFile = {
-    if(lineNo<=0 || lineNo>text.lines.length) {
+    if(lineNo<0 || lineNo>text.lines.length) {
       text
     } else {
       val (start, rest) = text.lines.splitAt(lineNo)

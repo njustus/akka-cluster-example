@@ -10,6 +10,11 @@ case class TextFile(path: Path,
   def length: Int = lines.length
 
   def fileName: String = path.getFileName.toString
+
+  override def toString: String = {
+    s"${path.getFileName} (${lastUpdate})\n"+
+      s"${lines.mkString("\n")}"
+  }
 }
 
 object TextFile {
