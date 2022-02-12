@@ -1,6 +1,8 @@
 package njustus.clusterexample.textedit
 
 import akka.actor._
+import njustus.clusterexample.textedit.dtos._
+
 import scala.collection.mutable
 
 class TextFileCoordinator(interpreter: TextEditorInterpreter,

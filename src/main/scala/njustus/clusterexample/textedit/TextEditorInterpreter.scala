@@ -1,5 +1,7 @@
 package njustus.clusterexample.textedit
 
+import njustus.clusterexample.textedit.dtos.{EditPatch, TextFile}
+
 import java.time.LocalDateTime
 
 trait TextEditorInterpreter {

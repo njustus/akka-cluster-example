@@ -6,6 +6,7 @@ import akka.cluster.client.ClusterClientReceptionist
 import akka.cluster.singleton.{ClusterSingletonManager, ClusterSingletonManagerSettings, ClusterSingletonProxy, ClusterSingletonProxySettings}
 import njustus.clusterexample.textedit.EditingPeer.Tick
 import njustus.clusterexample.textedit._
+import njustus.clusterexample.textedit.dtos.TextFile
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.lang.System.LoggerFinder

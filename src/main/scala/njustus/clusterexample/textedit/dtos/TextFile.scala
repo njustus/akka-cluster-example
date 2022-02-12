@@ -1,4 +1,4 @@
-package njustus.clusterexample.textedit
+package njustus.clusterexample.textedit.dtos
 
 import java.nio.file.{Files, Path}
 import java.time.LocalDateTime

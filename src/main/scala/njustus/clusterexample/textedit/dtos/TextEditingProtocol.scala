@@ -1,8 +1,8 @@
-package njustus.clusterexample.textedit
+package njustus.clusterexample.textedit.dtos
 
 import akka.actor.ActorRef
 
-sealed trait TextEditingProtocol extends EditMessage
+sealed trait TextEditingProtocol
 
 object TextEditingProtocol {
   case class TextFileUpdate(textFile: TextFile, editSource:ActorRef)  extends TextEditingProtocol

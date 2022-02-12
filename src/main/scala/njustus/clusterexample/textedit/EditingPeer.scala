@@ -1,6 +1,7 @@
 package njustus.clusterexample.textedit
 
 import akka.actor._
+import njustus.clusterexample.textedit.dtos._
 
 import scala.util.Random
 
@@ -38,7 +39,7 @@ class EditingPeer(fileCoordinator: ActorRef) extends Actor with CommonActor {
 }
 
 object EditingPeer {
-  case object Tick extends EditMessage
+  case object Tick
 
   def props(fc: ActorRef): Props = Props(new EditingPeer(fc))
 }
