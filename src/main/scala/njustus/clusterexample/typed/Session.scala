@@ -33,22 +33,6 @@ object Session extends StatefulActor {
   }
 
   override protected def zero: GameState = {
-    val cards = List.fill(12)((Random.between(0, 3), Random.between(0, 12)))
-      .map { case (color, symbol) => Card(colorByIndex(color), symbolByIndex(symbol)) }
-
-    GameState(cards, List.empty)
+    GameState(List.empty, List.empty)
   }
-
-  def colorByIndex(idx:Int): String = idx match {
-    case 0 => "Pik"
-    case 1 => "Karo"
-    case 2 => "Herz"
-  }
-
-    def symbolByIndex(idx: Int): String = idx match {
-      case 12 => "King"
-      case 12 => "Queen"
-      case 11 => "Prince"
-      case _ => idx.toString
-    }
 }
