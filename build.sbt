@@ -1,3 +1,4 @@
+
 name := "akka-cluster-example"
 
 version := "1.0"
@@ -11,6 +12,9 @@ lazy val akkaVersion = "2.6.18"
 // If you want to keep the application running while executing other
 // sbt tasks, consider https://github.com/spray/sbt-revolver/
 fork := true
+
+assembly / mainClass := Some("njustus.clusterexample.Main")
+assembly / assemblyJarName := "cluster-example.jar"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion,
