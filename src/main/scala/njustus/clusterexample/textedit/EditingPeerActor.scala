@@ -7,7 +7,7 @@ import njustus.clusterexample.textedit.dtos._
 import java.util.Locale
 import scala.util.Random
 
-class EditingPeer(fileCoordinator: ActorRef) extends Actor with CommonActor {
+class EditingPeerActor(fileCoordinator: ActorRef) extends Actor with CommonActor {
   private val faker = new Faker(Locale.GERMANY)
 
   override def preStart(): Unit = {
@@ -26,7 +26,7 @@ class EditingPeer(fileCoordinator: ActorRef) extends Actor with CommonActor {
     case update: TextEditingProtocol.TextFileUpdate =>
       log.debug("Received update {}", update)
       context.become(initialized(update.textFile))
-    case EditingPeer.Tick =>
+    case EditingPeerActor.Tick =>
       fileCoordinator.tell(edit(textFile), context.self)
   }
 
@@ -49,8 +49,8 @@ class EditingPeer(fileCoordinator: ActorRef) extends Actor with CommonActor {
   }
 }
 
-object EditingPeer {
+object EditingPeerActor {
   case object Tick
 
-  def props(fc: ActorRef): Props = Props(new EditingPeer(fc))
+  def props(fc: ActorRef): Props = Props(new EditingPeerActor(fc))
 }

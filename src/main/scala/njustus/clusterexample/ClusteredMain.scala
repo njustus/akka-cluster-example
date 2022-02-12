@@ -4,7 +4,7 @@ import akka.actor.{ActorRef, ActorSystem, PoisonPill}
 import akka.cluster._
 import akka.cluster.client.ClusterClientReceptionist
 import akka.cluster.singleton.{ClusterSingletonManager, ClusterSingletonManagerSettings, ClusterSingletonProxy, ClusterSingletonProxySettings}
-import njustus.clusterexample.textedit.EditingPeer.Tick
+import njustus.clusterexample.textedit.EditingPeerActor.Tick
 import njustus.clusterexample.textedit._
 
 import java.nio.file.Paths
@@ -37,9 +37,9 @@ object ClusteredMain extends CommonMain {
       case scala.util.Success(coordinatorProxy) =>
         log.info("remote path: " + coordinatorProxy.path)
 
-        val peer = system.actorOf(EditingPeer.props(coordinatorProxy), "Tim")
+        val peer = system.actorOf(EditingPeerActor.props(coordinatorProxy), "Tim")
         for (_ <- 0 until 5) {
-          peer.tell(EditingPeer.Tick, ActorRef.noSender)
+          peer.tell(EditingPeerActor.Tick, ActorRef.noSender)
           Thread.sleep(5000)
         }
       case scala.util.Failure(exception) =>
