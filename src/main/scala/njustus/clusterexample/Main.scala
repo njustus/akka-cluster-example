@@ -1,24 +1,33 @@
 package njustus.clusterexample
 
-import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
+import akka.actor.{ActorRef, ActorSystem}
+import njustus.clusterexample.textedit._
 
-class MyActor extends Actor with ActorLogging {
-  override def receive: Receive = ???
-}
-
-object MyActor {
-  def props: Props = Props(new MyActor())
-}
+import java.nio.file.Paths
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 
 object Main {
 
   def main(args: Array[String]): Unit = {
+    val file = TextFile.fromPath(Paths.get("./book.txt"))
+
     val system = ActorSystem("test-system")
 
-    val session = system.actorOf(GameSession.props, "game-session")
-    session ! 5
-    session ! 5
-    session ! 5
+    val coordinator = system.actorOf(TextFileCoordinator.props(new SimpleEditor(), file), s"coordinator-${file.fileName}")
+
+    val peer1 = system.actorOf(EditingPeer.props(coordinator), "peer-0");
+    val peer2 = system.actorOf(EditingPeer.props(coordinator), "peer-1");
+
+    for(_ <- 0 until 5) {
+      peer1.tell(EditingPeer.Tick, ActorRef.noSender)
+      Thread.sleep(10000)
+    }
+
+    peer2.tell(EditingPeer.Tick, ActorRef.noSender)
+
+    Thread.sleep(3000)
+    Await.result(system.terminate(), Duration.Inf)
   }
 
 }
