@@ -12,7 +12,7 @@ object Main {
   def main(args: Array[String]): Unit = {
     val file = TextFile.fromPath(Paths.get("./book.txt"))
 
-    val system = ActorSystem("test-system")
+    val system = ActorSystem("editing-system")
 
     val coordinator = system.actorOf(TextFileCoordinator.props(new SimpleEditor(), file), s"coordinator-${file.fileName}")
 
