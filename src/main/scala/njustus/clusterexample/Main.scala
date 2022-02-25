@@ -4,10 +4,12 @@ import njustus.clusterexample.ui.TextEditUi
 
 object Main {
   def main(args: Array[String]): Unit = {
-    if(args.contains("remote")) {
+    val role = System.getenv("ROLE")
+    if(role.equalsIgnoreCase("PEER") || role.equalsIgnoreCase("SERVER")) {
       println("starting clustered system")
       ClusteredMain.main(args)
-    } else if(args.contains("ui")) {
+    } else if(role.equalsIgnoreCase("UI")) {
+      println("starting ui for clustered system")
       TextEditUi.main(args)
     } else {
       println("starting local system")

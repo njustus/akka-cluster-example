@@ -1,0 +1,12 @@
+.line-component {
+  -fx-padding: 2px;
+  -fx-spacing: 5;
+}
+
+.line-component-editor {
+  -fx-font-weight: bold;
+}
+
+.line-component-text {
+
+}
