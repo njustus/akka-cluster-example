@@ -14,8 +14,8 @@ object LocalMain extends CommonMain {
     val coordinator = system.actorOf(coordinatorProps, coordinatorName)
 
     val peer1 = system.actorOf(EditingPeerActor.props(coordinator), "Tim");
-    val peer2 = system.actorOf(EditingPeerActor.props(coordinator), "Tom");
-    val peer3 = system.actorOf(EditingPeerActor.props(coordinator), "Jenny");
+    val peer2 = system.actorOf(EditingPeerActor.props(coordinator), "Bob");
+    val peer3 = system.actorOf(EditingPeerActor.props(coordinator), "Ina");
 
     for (_ <- 0 until 5) {
       peer1.tell(EditingPeerActor.Tick, ActorRef.noSender)

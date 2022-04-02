@@ -8,12 +8,11 @@ import javafx.scene.Scene
 import javafx.scene.layout.Pane
 import javafx.stage.Stage
 import njustus.clusterexample.LocalMain.{coordinatorName, getServerAddress}
-import njustus.clusterexample.textedit.dtos.TextFile
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.util.concurrent.TimeUnit
-import scala.concurrent.{Await, ExecutionContextExecutor}
 import scala.concurrent.duration._
+import scala.concurrent.{Await, ExecutionContextExecutor}
 
 class TextEditUi extends Application {
   val log: Logger = LoggerFactory.getLogger(TextEditUi.getClass)
@@ -40,22 +39,18 @@ class TextEditUi extends Application {
 
     cluster.registerOnMemberUp {
       val actorPath = s"akka://editing-system@${getServerAddress(system.settings)}/user/$coordinatorName"
-      val path = system.actorSelection(actorPath).resolveOne(FiniteDuration(5, TimeUnit.MINUTES))
+      val pathFuture = system.actorSelection(actorPath).resolveOne(FiniteDuration(5, TimeUnit.MINUTES))
 
-      path.onComplete {
-        case scala.util.Success(coordinatorProxy) =>
-          log.info("remote path: " + coordinatorProxy.path)
+      val coordinatorProxy = Await.result(pathFuture, Duration.Inf)
+      log.info("remote path: " + coordinatorProxy.path)
 
-          system.actorOf(EditUiSubscriber.props(coordinatorProxy, indexController))
-        case scala.util.Failure(exception) =>
-          log.error(s"coordinator not resolved", exception)
-      }
+      system.actorOf(EditUiSubscriber.props(coordinatorProxy, indexController))
     }
   }
 }
 
 object TextEditUi {
   def main(args: Array[String]): Unit = {
-    Application.launch(classOf[TextEditUi], args:_*)
+    Application.launch(classOf[TextEditUi], args: _*)
   }
 }
