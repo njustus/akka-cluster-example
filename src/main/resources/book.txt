@@ -1,5 +1,10 @@
-dies ist ein test buch.
-es ist noch nicht fertig und muss überarbeitet werden.
-Helft mir.
-Ich weiß nicht mehr weiter.
-Bitte.
+dies ist ein Beispiel
+test
+test
+test
+test
+test
+test
+test
+test
+test
