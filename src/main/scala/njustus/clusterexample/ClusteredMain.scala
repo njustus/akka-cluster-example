@@ -15,7 +15,7 @@ object ClusteredMain extends CommonMain {
 
     if (isServer(system.settings)) {
       log.info("starting server")
-      system.actorOf(coordinatorProps, coordinatorName)
+      system.actorOf(textFileActorProps, coordinatorName)
     } else {
       log.info("starting clients")
       bootstrapPeer(cluster)
@@ -29,10 +29,10 @@ object ClusteredMain extends CommonMain {
     val actorPath = s"akka://editing-system@${getServerAddress(system.settings)}/user/$coordinatorName"
     val pathFuture = system.actorSelection(actorPath).resolveOne(FiniteDuration(5, TimeUnit.MINUTES))
 
-    val coordinatorProxy = Await.result(pathFuture, Duration.Inf)
-    log.info("remote path: " + coordinatorProxy.path)
+    val textFileActor = Await.result(pathFuture, Duration.Inf)
+    log.info("remote path: " + textFileActor.path)
 
-    val tim = system.actorOf(EditingPeerActor.props(coordinatorProxy), "Tim")
-    val ina = system.actorOf(EditingPeerActor.props(coordinatorProxy), "Ina")
+    val tim = system.actorOf(EditingPeerActor.props(textFileActor), "Tim")
+    val ina = system.actorOf(EditingPeerActor.props(textFileActor), "Ina")
   }
 }

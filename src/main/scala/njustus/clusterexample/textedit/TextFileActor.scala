@@ -5,8 +5,8 @@ import njustus.clusterexample.textedit.dtos._
 
 import scala.collection.mutable
 
-class TextFileCoordinatingActor(interpreter: TextEditorInterpreter,
-                                initialTextFile: TextFile) extends Actor with CommonActor {
+class TextFileActor(interpreter: TextEditorInterpreter,
+                    initialTextFile: TextFile) extends Actor with CommonActor {
   private var currentTextFile = initialTextFile
 
   private val editingPeers = mutable.ListBuffer.empty[ActorRef]
@@ -46,6 +46,6 @@ class TextFileCoordinatingActor(interpreter: TextEditorInterpreter,
   }
 }
 
-object TextFileCoordinatingActor {
-  def props(interpreter: TextEditorInterpreter, textFile: TextFile): Props = Props(new TextFileCoordinatingActor(interpreter, textFile))
+object TextFileActor {
+  def props(interpreter: TextEditorInterpreter, textFile: TextFile): Props = Props(new TextFileActor(interpreter, textFile))
 }

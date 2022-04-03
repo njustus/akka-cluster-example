@@ -8,14 +8,14 @@ import java.util.Locale
 import scala.util.Random
 import scala.concurrent.duration._
 
-class EditingPeerActor(fileCoordinator: ActorRef) extends Actor with CommonActor {
+class EditingPeerActor(textFileActor: ActorRef) extends Actor with CommonActor {
 
   private val faker = new Faker(Locale.GERMANY)
 
   override def preStart(): Unit = {
     super.preStart()
-    log.info("joining to {}", fileCoordinator.path)
-    fileCoordinator.tell(TextEditingProtocol.Join, context.self)
+    log.info("joining to {}", textFileActor.path)
+    textFileActor.tell(TextEditingProtocol.Join, context.self)
 
     context.system.scheduler.scheduleAtFixedRate(2 seconds, 5 seconds, self, EditingPeerActor.Tick)
   }
@@ -32,7 +32,7 @@ class EditingPeerActor(fileCoordinator: ActorRef) extends Actor with CommonActor
       context.become(initialized(update.textFile))
 
     case EditingPeerActor.Tick =>
-      fileCoordinator.tell(edit(textFile), context.self)
+      textFileActor.tell(edit(textFile), context.self)
   }
 
   private def edit(textFile: TextFile): TextEditingProtocol.EditLine = {

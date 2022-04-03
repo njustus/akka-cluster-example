@@ -12,7 +12,7 @@ abstract class CommonMain {
 
   val file: TextFile = TextFile.fromResource("book.txt")
   val coordinatorName = s"coordinator-${file.fileName}"
-  val coordinatorProps: Props = TextFileCoordinatingActor.props(new SimpleEditor(), file)
+  val textFileActorProps: Props = TextFileActor.props(new SimpleEditor(), file)
 
   def isServer(settings: ActorSystem.Settings): Boolean = {
     settings.config.getString("editing.role").equalsIgnoreCase("SERVER")
