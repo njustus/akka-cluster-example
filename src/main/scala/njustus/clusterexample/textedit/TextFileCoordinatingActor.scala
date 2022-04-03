@@ -9,7 +9,7 @@ class TextFileCoordinatingActor(interpreter: TextEditorInterpreter,
                                 initialTextFile: TextFile) extends Actor with CommonActor {
   private var currentTextFile = initialTextFile
 
-  private var editingPeers = mutable.ListBuffer.empty[ActorRef]
+  private val editingPeers = mutable.ListBuffer.empty[ActorRef]
 
   override def receive: Receive = {
     case TextEditingProtocol.Join =>
