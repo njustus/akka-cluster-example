@@ -1,0 +1,80 @@
+* Protokoll zeigen: TextEditingProtocol
+- join, leave
+- TextFileUpdate: update von Coordinator an EditingPeers
+- EditLine: Peer sendet Textänderung
+* Model zeigen: TextFile
+- EditPatch: 1 Zeile samt Bearbeiter/Peer
+- TextFile: Dokument
+
+* LocalMain zeigen
+Aktoren:
+- TextFile starten
+- tim, bob, ina starten
+
+* TextFileActor zeigen
+- 1x ohne Implementierung starten -> dead letters für Join
+- join implementieren
+  #+begin_src scala
+  case TextEditingProtocol.Join =>
+      log.info("{} joins", sender().path.name)
+      editingPeers += sender()
+      sender() ! TextEditingProtocol.TextFileUpdate(currentTextFile, self)
+  #+end_src
+- Peers bekommen initiale Datei, versuchen zu ändern.
+- Patch implementieren
+  #+begin_src scala
+  case editLine:TextEditingProtocol.EditLine =>
+      log.info("received edit {} from {}", editLine, sender())
+      val patch = EditPatch(editLine.content, Some(sender().path.name))
+
+      val newTextFile = interpreter.editLine(currentTextFile, editLine.lineNo, patch)
+  #+end_src
+- ausführen, testen
+  *Achtung:* Peers kriegen kein update
+
+- Patch um update Peers erweitern
+  #+begin_src scala
+    private def updateTextFile(newTextFile: TextFile, source: ActorRef): Unit = {
+    currentTextFile = newTextFile
+
+    val textFileUpdate = TextEditingProtocol.TextFileUpdate(newTextFile, source)
+    log.debug("editing patch applied, notify peers")
+    editingPeers.foreach { actor =>
+      actor.tell(textFileUpdate, context.self)
+    }
+  }
+  #+end_src
+
+* ClusteredMain zeigen
+- =registerOnMemberUp= = sobald das Cluster bereit ist
+- =actorPath= Pfad/Adresse erstellen und auflösen
+- peers starten mit aufgelöster Adresse
+- Rest *identisch*
+- Adresse kann auch aus Zookeeper gelesen werden
+- Adresse könnte auch ein Event im Cluster sein
+
+* UI zeigen
+
+* Abschluss
+- Fragen?
+- das waren die Basics. Gerade an der Oberfläche gekratzt.
+- Wollt ihr mehr sehen? streaming, http?
+
+* gradle Befehle
+** local
+   #+begin_src
+   PROVIDER=local gradle run
+   #+end_src
+
+** server
+   #+begin_src
+   ROLE=SERVER;PORT=2552;SERVER=0.0.0.0:2552 gradle run
+   #+end_src
+** clients
+   #+begin_src
+   ROLE=SERVER;PORT=2552;SERVER=0.0.0.0:2552 gradle run
+   #+end_src
+** UI
+   #+begin_src
+   ROLE=UI;PORT=2553;SERVER=0.0.0.0:2552 gradle run
+   #+end_src
