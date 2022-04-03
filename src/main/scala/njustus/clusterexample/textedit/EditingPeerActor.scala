@@ -6,14 +6,18 @@ import njustus.clusterexample.textedit.dtos._
 
 import java.util.Locale
 import scala.util.Random
+import scala.concurrent.duration._
 
 class EditingPeerActor(fileCoordinator: ActorRef) extends Actor with CommonActor {
+
   private val faker = new Faker(Locale.GERMANY)
 
   override def preStart(): Unit = {
     super.preStart()
     log.info("joining to {}", fileCoordinator.path)
     fileCoordinator.tell(TextEditingProtocol.Join, context.self)
+
+    context.system.scheduler.scheduleAtFixedRate(2 seconds, 5 seconds, self, EditingPeerActor.Tick)
   }
 
   override def receive: Receive = {
@@ -26,6 +30,7 @@ class EditingPeerActor(fileCoordinator: ActorRef) extends Actor with CommonActor
     case update: TextEditingProtocol.TextFileUpdate =>
       log.debug("Received update {}", update)
       context.become(initialized(update.textFile))
+
     case EditingPeerActor.Tick =>
       fileCoordinator.tell(edit(textFile), context.self)
   }

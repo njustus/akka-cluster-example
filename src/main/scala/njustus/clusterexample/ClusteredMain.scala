@@ -1,12 +1,12 @@
 package njustus.clusterexample
 
-import akka.actor.{ActorRef, ActorSystem}
+import akka.actor.{ActorSystem, PoisonPill}
 import akka.cluster._
 import njustus.clusterexample.textedit._
 
 import java.util.concurrent.TimeUnit
-import scala.concurrent.{Await, ExecutionContextExecutor}
 import scala.concurrent.duration.{Duration, FiniteDuration}
+import scala.concurrent.{Await, ExecutionContextExecutor}
 
 object ClusteredMain extends CommonMain {
   def main(args: Array[String]): Unit = {
@@ -32,10 +32,7 @@ object ClusteredMain extends CommonMain {
     val coordinatorProxy = Await.result(pathFuture, Duration.Inf)
     log.info("remote path: " + coordinatorProxy.path)
 
-    val peer = system.actorOf(EditingPeerActor.props(coordinatorProxy), "Tim")
-    for (_ <- 0 until 5) {
-      peer.tell(EditingPeerActor.Tick, ActorRef.noSender)
-      Thread.sleep(5000)
-    }
+    val tim = system.actorOf(EditingPeerActor.props(coordinatorProxy), "Tim")
+    val ina = system.actorOf(EditingPeerActor.props(coordinatorProxy), "Ina")
   }
 }
