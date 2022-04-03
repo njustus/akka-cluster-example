@@ -7,10 +7,11 @@ import scala.collection.mutable
 
 class TextFileActor(interpreter: TextEditorInterpreter,
                     initialTextFile: TextFile) extends Actor with CommonActor {
+  //state
   private var currentTextFile = initialTextFile
-
   private val editingPeers = mutable.ListBuffer.empty[ActorRef]
 
+  //message handling
   override def receive: Receive = {
     case TextEditingProtocol.Join =>
       val peer = sender()
