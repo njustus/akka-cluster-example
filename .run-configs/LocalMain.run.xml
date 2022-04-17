@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="LocalMain" type="Application" factoryName="Application">
+    <envs>
+      <env name="PROVIDER" value="local" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="njustus.clusterexample.LocalMain" />
+    <module name="cluster-example.main" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="njustus.clusterexample.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
