@@ -47,6 +47,7 @@ private[ui] class IndexController extends Initializable {
         case (lbl: LineComponent, patch) =>
           log.debug(s"updating patch ${patch.content}")
           lbl.update(patch)
+        case x => log.error("unknown element within centerBox {}", x)
       }
     }
   }
