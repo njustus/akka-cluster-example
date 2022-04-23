@@ -1,4 +1,6 @@
+
 * Protokoll zeigen: TextEditingProtocol
+- Bsp in Scala
 - join, leave
 - TextFileUpdate: update von Coordinator an EditingPeers
 - EditLine: Peer sendet Textänderung
