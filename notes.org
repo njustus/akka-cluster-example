@@ -49,11 +49,24 @@ Aktoren:
 
 * ClusteredMain zeigen
 - =registerOnMemberUp= = sobald das Cluster bereit ist
+- ausimplementieren
+#+begin_src scala
+
+    val actorPath = s"akka://editing-system@${getServerAddress(system.settings)}/user/$coordinatorName"
+    val pathFuture = system.actorSelection(actorPath).resolveOne(5 minutes)
+
+    val textFileActor = Await.result(pathFuture, 5 minutes)
+    log.info("remote path: " + textFileActor.path)
+
+    val tim = system.actorOf(EditingPeerActor.props(textFileActor), "Tim")
+    val ina = system.actorOf(EditingPeerActor.props(textFileActor), "Ina")
+#+end_src
+
 - =actorPath= Pfad/Adresse erstellen und auflösen
 - peers starten mit aufgelöster Adresse
-- Rest *identisch*
-- Adresse kann auch aus Zookeeper gelesen werden
+- Adresse kann auch aus *Zookeeper* gelesen werden
 - Adresse könnte auch ein Event im Cluster sein
+- Rest *identisch*
 
 * UI zeigen
 

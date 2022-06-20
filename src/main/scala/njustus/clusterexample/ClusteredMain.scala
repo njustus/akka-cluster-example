@@ -24,15 +24,8 @@ object ClusteredMain extends CommonMain {
   }
 
   private def bootstrapPeer(cluster: Cluster): Unit = cluster.registerOnMemberUp {
+    log.info("cluster ready")
     val system = cluster.system
-
-    val actorPath = s"akka://editing-system@${getServerAddress(system.settings)}/user/$coordinatorName"
-    val pathFuture = system.actorSelection(actorPath).resolveOne(5 minutes)
-
-    val textFileActor = Await.result(pathFuture, 5 minutes)
-    log.info("remote path: " + textFileActor.path)
-
-    val tim = system.actorOf(EditingPeerActor.props(textFileActor), "Tim")
-    val ina = system.actorOf(EditingPeerActor.props(textFileActor), "Ina")
+    ???
   }
 }
