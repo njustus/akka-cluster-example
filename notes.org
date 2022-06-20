@@ -72,8 +72,18 @@ Aktoren:
 
 * Abschluss
 - Fragen?
+
 - das waren die Basics. Gerade an der Oberfläche gekratzt.
 - Wollt ihr mehr sehen? streaming, http?
+
+** Fragen
+- gleichzeitiges ändern 1 Zeile führt zum gegenseitigen überschreiben. In Google Docs genauso.
+  *keine* Änderung geht verloren.
+
+** Einsatzbereiche
+- Interaktive Anwendungen (mit WebSockets)
+- Real Time Anwendungen
+- Event Driven Architectures (gibt's umsonst)
 
 * gradle Befehle
 ** local
