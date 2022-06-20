@@ -25,7 +25,6 @@ object ClusteredMain extends CommonMain {
 
   private def bootstrapPeer(cluster: Cluster): Unit = cluster.registerOnMemberUp {
     val system = cluster.system
-    implicit val exec: ExecutionContextExecutor = system.dispatcher
 
     val actorPath = s"akka://editing-system@${getServerAddress(system.settings)}/user/$coordinatorName"
     val pathFuture = system.actorSelection(actorPath).resolveOne(5 minutes)
