@@ -1,12 +1,11 @@
 package njustus.clusterexample
 
-import akka.actor.{ActorSystem, PoisonPill}
+import akka.actor.ActorSystem
 import akka.cluster._
 import njustus.clusterexample.textedit._
 
-import java.util.concurrent.TimeUnit
-import scala.concurrent.duration.{Duration, FiniteDuration}
-import scala.concurrent.{Await, ExecutionContextExecutor}
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 object ClusteredMain extends CommonMain {
   def main(args: Array[String]): Unit = {
@@ -24,12 +23,11 @@ object ClusteredMain extends CommonMain {
 
   private def bootstrapPeer(cluster: Cluster): Unit = cluster.registerOnMemberUp {
     val system = cluster.system
-    implicit val exec: ExecutionContextExecutor = system.dispatcher
 
     val actorPath = s"akka://editing-system@${getServerAddress(system.settings)}/user/$coordinatorName"
-    val pathFuture = system.actorSelection(actorPath).resolveOne(FiniteDuration(5, TimeUnit.MINUTES))
+    val pathFuture = system.actorSelection(actorPath).resolveOne(5 minutes)
 
-    val textFileActor = Await.result(pathFuture, Duration.Inf)
+    val textFileActor = Await.result(pathFuture, 5 minutes)
     log.info("remote path: " + textFileActor.path)
 
     val tim = system.actorOf(EditingPeerActor.props(textFileActor), "Tim")
