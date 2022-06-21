@@ -97,7 +97,7 @@ Aktoren:
    #+end_src
 ** clients
    #+begin_src
-   ROLE=SERVER;PORT=2552;SERVER=0.0.0.0:2552 gradle run
+   ROLE=PEER;PORT=2551;SERVER=0.0.0.0:2552 gradle run
    #+end_src
 ** UI
    #+begin_src
